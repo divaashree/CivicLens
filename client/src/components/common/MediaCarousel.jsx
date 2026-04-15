@@ -2,6 +2,7 @@ import { useState } from "react";
 
 export default function MediaCarousel({ media }) {
   const [current, setCurrent] = useState(0);
+  const [mediaTypes, setMediaTypes] = useState({});
 
   // Show placeholder if no media
   if (!media || media.length === 0) {
@@ -13,8 +14,19 @@ export default function MediaCarousel({ media }) {
   }
 
   const item = media[current];
-  // Media items are now plain base64 strings - assume images for display
-  const src = `data:image/jpeg;base64,${item}`;
+  const imgSrc = `data:image/jpeg;base64,${item}`;
+  const videoSrc = `data:video/mp4;base64,${item}`;
+  const isVideo = mediaTypes[current] === "video";
+
+  const handleImageError = () => {
+    // Image failed to load, this might be a video
+    setMediaTypes((prev) => ({ ...prev, [current]: "video" }));
+  };
+
+  const handleVideoError = () => {
+    // Video failed to load, this might be an image
+    setMediaTypes((prev) => ({ ...prev, [current]: "image" }));
+  };
 
   const goToPrevious = () => {
     setCurrent((prev) => (prev - 1 + media.length) % media.length);
@@ -26,8 +38,22 @@ export default function MediaCarousel({ media }) {
 
   return (
     <div className="relative w-full bg-black rounded-lg overflow-hidden">
-      {/* Media Display */}
-      <img src={src} alt="complaint media" className="w-full h-48 object-cover" />
+      {/* Media Display - Show video or image based on which loads */}
+      {isVideo ? (
+        <video
+          src={videoSrc}
+          controls
+          onError={handleVideoError}
+          className="w-full h-48 object-cover"
+        />
+      ) : (
+        <img
+          src={imgSrc}
+          alt="complaint media"
+          onError={handleImageError}
+          className="w-full h-48 object-cover"
+        />
+      )}
 
       {/* Counter Badge */}
       {media.length > 1 && (

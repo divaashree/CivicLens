@@ -9,23 +9,23 @@ export default function Home() {
   const [error, setError] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("all");
 
-  useEffect(() => {
-    const fetchComplaints = async () => {
-      try {
-        setLoading(true);
-        const query = selectedCategory !== "all" ? `?category=${selectedCategory}` : "";
-        const response = await API.get(`/complaints${query}`);
-        setComplaints(response.data);
-        setError(null);
-        console.log("Complaints fetched:", response.data);
-      } catch (err) {
-        setError("Failed to fetch complaints");
-        console.error("Error fetching complaints:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchComplaints = async () => {
+    try {
+      setLoading(true);
+      const query = selectedCategory !== "all" ? `?category=${selectedCategory}` : "";
+      const response = await API.get(`/complaints${query}`);
+      setComplaints(response.data);
+      setError(null);
+      console.log("Complaints fetched:", response.data);
+    } catch (err) {
+      setError("Failed to fetch complaints");
+      console.error("Error fetching complaints:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchComplaints();
   }, [selectedCategory]);
 
@@ -54,7 +54,11 @@ export default function Home() {
       <div className="space-y-4">
         {complaints.length > 0 ? (
           complaints.map((complaint) => (
-            <ComplaintCard key={complaint._id} complaint={complaint} />
+            <ComplaintCard
+              key={complaint._id}
+              complaint={complaint}
+              onUpdate={fetchComplaints}
+            />
           ))
         ) : (
           !loading && (

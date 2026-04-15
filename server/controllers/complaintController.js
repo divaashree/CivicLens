@@ -85,3 +85,103 @@ exports.getComplaints = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+// Helper function to get department based on category
+const getDepartmentByCategory = (category) => {
+  const departmentMap = {
+    pothole: "PWD",
+    garbage: "Waste Management",
+    streetlight: "Electricity",
+    water: "Water Supply",
+    parking: "Traffic Police",
+    dumping: "Municipal Corp",
+    other: "Unassigned",
+  };
+  return departmentMap[category] || "Unassigned";
+};
+
+// Update Complaint (status and department)
+exports.updateComplaint = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status, department } = req.body;
+
+    const complaint = await Complaint.findById(id);
+    if (!complaint) {
+      return res.status(404).json({ message: "Complaint not found" });
+    }
+
+    // Update status
+    if (status) {
+      complaint.status = status;
+      // Set resolvedAt when status changes to resolved
+      if (status === "resolved" && !complaint.resolvedAt) {
+        complaint.resolvedAt = new Date();
+      }
+    }
+
+    // Update department
+    if (department) {
+      complaint.department = department;
+    }
+
+    await complaint.save();
+    res.json(complaint);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Upvote Complaint
+exports.upvoteComplaint = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const complaint = await Complaint.findByIdAndUpdate(
+      id,
+      { $inc: { upvotes: 1 } },
+      { new: true }
+    );
+
+    if (!complaint) {
+      return res.status(404).json({ message: "Complaint not found" });
+    }
+
+    res.json(complaint);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Add Comment to Complaint
+exports.addComment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { text } = req.body;
+
+    if (!text || !text.trim()) {
+      return res.status(400).json({ message: "Comment text is required" });
+    }
+
+    const complaint = await Complaint.findByIdAndUpdate(
+      id,
+      {
+        $push: {
+          comments: {
+            text: text.trim(),
+            createdAt: new Date(),
+          },
+        },
+      },
+      { new: true }
+    );
+
+    if (!complaint) {
+      return res.status(404).json({ message: "Complaint not found" });
+    }
+
+    res.json(complaint);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

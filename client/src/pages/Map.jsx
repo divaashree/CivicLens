@@ -139,11 +139,24 @@ export default function Map() {
                         </span>
                       </div>
 
+                      <div>
+                        <span className="font-semibold">Department:</span>{" "}
+                        <span className="capitalize">{complaint.department || "Unassigned"}</span>
+                      </div>
+
                       {complaint.severity && (
                         <div>
                           <span className="font-semibold">Severity:</span> {complaint.severity}/10
                         </div>
                       )}
+
+                      <div>
+                        <span className="font-semibold">👍 Upvotes:</span> {complaint.upvotes}
+                      </div>
+
+                      <div>
+                        <span className="font-semibold">💬 Comments:</span> {complaint.comments?.length || 0}
+                      </div>
                     </div>
 
                     {complaint.media && complaint.media.length > 0 && (

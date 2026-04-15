@@ -38,9 +38,38 @@ const complaintSchema = new mongoose.Schema(
       default: "submitted",
     },
 
+    department: {
+      type: String,
+      enum: [
+        "PWD",
+        "Waste Management",
+        "Electricity",
+        "Water Supply",
+        "Traffic Police",
+        "Municipal Corp",
+        "Unassigned",
+      ],
+      default: "Unassigned",
+    },
+
     upvotes: {
       type: Number,
       default: 0,
+    },
+
+    comments: [
+      {
+        text: String,
+        createdAt: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
+
+    resolvedAt: {
+      type: Date,
+      default: null,
     },
   },
   { timestamps: true }
