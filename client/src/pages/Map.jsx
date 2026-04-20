@@ -24,7 +24,7 @@ function LocationButton({ mapRef }) {
         const lat = position.coords.latitude;
         const lng = position.coords.longitude;
         if (mapRef.current) {
-          mapRef.current.flyTo([lat, lng], 14, {
+          mapRef.current.flyTo([lat, lng], 15, {
             duration: 3,
             easeLinearity: 0.1,
             noMoveStart: true,
@@ -69,6 +69,7 @@ export default function Map() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [loading, setLoading] = useState(true);
   const [zoomLevel, setZoomLevel] = useState(DEFAULT_ZOOM);
+  const [userLocation, setUserLocation] = useState(null);
   const mapRef = useRef(null);
 
   useEffect(() => {
@@ -87,6 +88,23 @@ export default function Map() {
 
     fetchComplaints();
   }, [selectedCategory]);
+
+  // Get user's current location on component mount
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setUserLocation({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          });
+        },
+        (error) => {
+          console.log("Geolocation error:", error);
+        }
+      );
+    }
+  }, []);
 
   // Filter out resolved issues - only show submitted and in_progress
   const visibleComplaints = complaints.filter((c) => c.status !== "resolved");
@@ -168,6 +186,28 @@ export default function Map() {
 
           {/* Zoom Level Tracker */}
           <ZoomTracker onZoomChange={setZoomLevel} />
+
+          {/* User's Current Location Marker - Blue Dot like Google Maps */}
+          {userLocation && (
+            <Marker
+              position={[userLocation.lat, userLocation.lng]}
+              icon={L.divIcon({
+                html: `<div style="width: 28px; height: 28px; background-color: #4A90E2; border-radius: 50%; border: 3px solid white; box-shadow: 0 0 0 2px #4A90E2; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;">
+                  <div style="width: 8px; height: 8px; background-color: white; border-radius: 50%;"></div>
+                </div>`,
+                iconSize: [28, 28],
+                className: "user-location-marker",
+              })}
+            >
+              <Popup>
+                <div className="text-sm">
+                  <p className="font-semibold">Your Location</p>
+                  <p className="text-gray-600 text-xs">Lat: {userLocation.lat.toFixed(4)}</p>
+                  <p className="text-gray-600 text-xs">Lng: {userLocation.lng.toFixed(4)}</p>
+                </div>
+              </Popup>
+            </Marker>
+          )}
 
           {/* Markers for Complaints - Only show non-resolved issues */}
           {visibleComplaints.map((complaint) => {

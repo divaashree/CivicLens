@@ -91,8 +91,10 @@ export default function Home() {
       {/* Main Content */}
       <div className="max-w-4xl mx-auto px-4 py-4 space-y-4">
         {/* Category Filter */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
-          <CategoryFilter selectedCategory={selectedCategory} onSelect={setSelectedCategory} />
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 overflow-x-auto scrollbar-hide">
+          <div className="inline-block min-w-full">
+            <CategoryFilter selectedCategory={selectedCategory} onSelect={setSelectedCategory} />
+          </div>
         </div>
 
         {/* Sort Options */}
@@ -165,6 +167,17 @@ export default function Home() {
           </>
         )}
       </div>
+
+      {/* Hidden CSS for scrollbar */}
+      <style>{`
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
     </div>
   );
 }

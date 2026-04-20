@@ -163,8 +163,8 @@ export default function Profile() {
         )}
 
         {/* Tab Navigation */}
-        <div className="bg-white rounded-t-xl shadow-sm border border-gray-200 fixed top-20 left-0 right-0 z-40 border-b">
-          <div className="max-w-5xl mx-auto px-4 flex border-b border-gray-200">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200">
+          <div className="flex border-b border-gray-200">
             <TabButton
               label="My Reports"
               active={activeTab === "reports"}
@@ -183,8 +183,8 @@ export default function Profile() {
           </div>
         </div>
 
-        {/* Tab Content - Add top padding to account for fixed tab bar */}
-        <div className="mt-16">
+        {/* Tab Content */}
+        <div>
           {activeTab === "reports" && (
             <MyReportsTab complaints={complaints} loading={loading} />
           )}
