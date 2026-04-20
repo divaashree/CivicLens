@@ -7,7 +7,7 @@ import { useAuth } from "../context/AuthContext";
 // SVG Icons
 function FileIcon() {
   return (
-    <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg className="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
     </svg>
   );
@@ -15,7 +15,7 @@ function FileIcon() {
 
 function ThumbsUpIcon() {
   return (
-    <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10h4.764a2 2 0 011.789 2.894l-3.646 7.289a2 2 0 01-1.789 1.106H7a2 2 0 01-2-2v-8a2 2 0 012-2h3.5a2 2 0 002-2V5a2 2 0 012-2h.5a2 2 0 012 2v7z" />
     </svg>
   );

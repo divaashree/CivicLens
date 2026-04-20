@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, memo } from "react";
 import API from "../../services/api";
 import MediaCarousel from "./MediaCarousel";
 import { calculateSLA } from "../../utils/slaHelper";
@@ -81,7 +81,7 @@ function getTimeAgo(date) {
   return then.toLocaleDateString();
 }
 
-export default function ComplaintCard({ complaint, onUpdate }) {
+function ComplaintCardComponent({ complaint }) {
   const [showComments, setShowComments] = useState(false);
   const [commentText, setCommentText] = useState("");
   const [loading, setLoading] = useState(false);
@@ -90,11 +90,17 @@ export default function ComplaintCard({ complaint, onUpdate }) {
   const handleUpvote = async () => {
     try {
       setLoading(true);
-      const response = await API.patch(`/complaints/${localComplaint._id}/upvote`);
-      setLocalComplaint(response.data);
-      if (onUpdate) onUpdate();
+      // Optimistic update - increment upvotes immediately
+      setLocalComplaint(prev => ({
+        ...prev,
+        upvotes: (prev.upvotes || 0) + 1
+      }));
+      // Confirm with backend
+      await API.patch(`/complaints/${localComplaint._id}/upvote`);
     } catch (err) {
       console.error("Error upvoting:", err);
+      // Revert on error
+      setLocalComplaint(complaint);
       alert("Failed to upvote. Please try again.");
     } finally {
       setLoading(false);
@@ -109,14 +115,24 @@ export default function ComplaintCard({ complaint, onUpdate }) {
 
     try {
       setLoading(true);
-      const response = await API.post(`/complaints/${localComplaint._id}/comment`, {
+      const newComment = {
+        text: commentText,
+        createdAt: new Date().toISOString()
+      };
+      // Optimistic update - add comment immediately
+      setLocalComplaint(prev => ({
+        ...prev,
+        comments: [...(prev.comments || []), newComment]
+      }));
+      setCommentText("");
+      // Confirm with backend
+      await API.post(`/complaints/${localComplaint._id}/comment`, {
         text: commentText,
       });
-      setLocalComplaint(response.data);
-      setCommentText("");
-      if (onUpdate) onUpdate();
     } catch (err) {
       console.error("Error adding comment:", err);
+      // Revert on error
+      setLocalComplaint(complaint);
       alert("Failed to add comment. Please try again.");
     } finally {
       setLoading(false);
@@ -269,3 +285,5 @@ export default function ComplaintCard({ complaint, onUpdate }) {
     </div>
   );
 }
+
+export default memo(ComplaintCardComponent);

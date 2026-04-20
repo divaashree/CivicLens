@@ -118,7 +118,6 @@ export default function Home() {
                   <ComplaintCard
                     key={complaint._id}
                     complaint={complaint}
-                    onUpdate={fetchComplaints}
                   />
                 ))}
               </div>
