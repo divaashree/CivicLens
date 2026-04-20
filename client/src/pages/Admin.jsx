@@ -96,7 +96,7 @@ export default function Admin() {
     "Water Supply":"bg-purple-50 text-purple-700 border border-purple-100",
     "Traffic Police": "bg-purple-50 text-purple-700 border border-purple-100",
     "Municipal Corp": "bg-purple-50 text-purple-700 border border-purple-100",
-    "Unassigned":"bg-purple-50 text-purple-700 border border-purple-100",
+    "Unassigned": "bg-red-50 text-red-700 border border-red-100",
   };
 
   const statusColors = {

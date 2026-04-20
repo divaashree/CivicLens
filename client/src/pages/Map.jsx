@@ -158,9 +158,9 @@ export default function Map() {
   };
 
   return (
-    <div className="flex flex-col h-screen pb-24">
+    <div className="flex flex-col h-[calc(100vh-6rem)]">
       {/* Filter Bar */}
-      <div className="bg-white shadow p-4 z-10">
+      <div className="bg-white shadow p-4 z-10 flex-shrink-0">
         <div className="overflow-x-auto scrollbar-hide">
           <div className="inline-block min-w-full">
             <CategoryFilter selectedCategory={selectedCategory} onSelect={setSelectedCategory} />
@@ -170,7 +170,7 @@ export default function Map() {
       </div>
 
       {/* Map Container */}
-      <div className="flex-1 w-full relative">
+      <div className="flex-1 w-full relative overflow-hidden">
         <MapContainer
           ref={mapRef}
           center={CHENNAI_CENTER}

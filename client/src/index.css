@@ -3,3 +3,45 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Hide scrollbar while keeping scroll functionality */
+html, body {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+}
+
+#root {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overflow-y: scroll;
+}
+
+#root::-webkit-scrollbar {
+  display: none;
+}
+
+/* Smooth page transitions */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Apply fade-in to page containers */
+div[role="main"],
+.bg-gray-50 {
+  animation: fadeIn 200ms ease-in-out;
+}
+
+/* Ensure smooth transitions between pages */
+div > div[style*="display"] {
+  transition: opacity 200ms ease-in-out;
+}
