@@ -299,16 +299,17 @@ function ReportCard({ complaint }) {
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition">
-      {complaint.media && complaint.media.length > 0 && (
-        <div className="w-full h-48 bg-gray-100 relative overflow-hidden">
+      {/* Media Section */}
+      {complaint.media && complaint.media.length > 0 ? (
+        <div className="w-full h-64 bg-gray-100 relative overflow-hidden rounded-t-xl">
           <img
             src={`data:image/jpeg;base64,${complaint.media[0]}`}
             alt="complaint"
             className="w-full h-full object-cover"
             onError={(e) => {
-              e.target.style.display = "none";
+              e.target.src = "";
               const parent = e.target.parentElement;
-              parent.innerHTML = '<div class="w-full h-full flex items-center justify-center bg-gray-300"></div>';
+              parent.innerHTML = '<div class="w-full h-full bg-gray-300 flex items-center justify-center text-gray-600 text-sm">Image unavailable</div>';
             }}
           />
           {complaint.media.length > 1 && (
@@ -316,6 +317,10 @@ function ReportCard({ complaint }) {
               +{complaint.media.length - 1}
             </div>
           )}
+        </div>
+      ) : (
+        <div className="w-full h-64 bg-gray-100 rounded-t-xl flex items-center justify-center border-b border-gray-200">
+          <span className="text-gray-500 text-sm font-medium">No media attached</span>
         </div>
       )}
 

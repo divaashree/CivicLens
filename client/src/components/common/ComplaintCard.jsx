@@ -147,10 +147,12 @@ function ComplaintCardComponent({ complaint }) {
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition">
-      {/* Media Carousel */}
-      {localComplaint.media && localComplaint.media.length > 0 && (
-        <div className="w-full h-64 bg-gray-100">
-          <MediaCarousel media={localComplaint.media} />
+      {/* Media Carousel - Full width, no extra padding */}
+      {localComplaint.media && localComplaint.media.length > 0 ? (
+        <MediaCarousel media={localComplaint.media} />
+      ) : (
+        <div className="w-full h-64 bg-gray-100 rounded-t-xl flex items-center justify-center border-b border-gray-200">
+          <span className="text-gray-500 text-sm font-medium">No media attached</span>
         </div>
       )}
 

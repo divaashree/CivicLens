@@ -12,42 +12,56 @@ function SortIcon() {
   );
 }
 
+// Helper function to apply filter and sort locally
+function applyFilterAndSort(data, category, sort) {
+  let filtered = data;
+
+  // Apply category filter
+  if (category !== "all") {
+    filtered = data.filter((c) => c.category === category);
+  }
+
+  // Apply sorting
+  let sorted = [...filtered];
+  if (sort === "upvotes") {
+    sorted.sort((a, b) => (b.upvotes || 0) - (a.upvotes || 0));
+  } else if (sort === "severity") {
+    sorted.sort((a, b) => (b.severity || 0) - (a.severity || 0));
+  } else {
+    sorted.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  }
+
+  return sorted;
+}
+
 export default function Home() {
-  const [complaints, setComplaints] = useState([]);
+  const [allComplaints, setAllComplaints] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [sortBy, setSortBy] = useState("latest");
 
-  const fetchComplaints = async () => {
-    try {
-      setLoading(true);
-      const query = selectedCategory !== "all" ? `?category=${selectedCategory}` : "";
-      const response = await API.get(`/complaints${query}`);
-
-      // Apply sorting
-      let sorted = [...response.data];
-      if (sortBy === "upvotes") {
-        sorted.sort((a, b) => (b.upvotes || 0) - (a.upvotes || 0));
-      } else if (sortBy === "severity") {
-        sorted.sort((a, b) => (b.severity || 0) - (a.severity || 0));
-      } else {
-        sorted.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-      }
-
-      setComplaints(sorted);
-      setError(null);
-    } catch (err) {
-      setError("Failed to fetch complaints");
-      console.error("Error fetching complaints:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  // Fetch data only once on mount
   useEffect(() => {
+    const fetchComplaints = async () => {
+      try {
+        setLoading(true);
+        const response = await API.get("/complaints");
+        setAllComplaints(response.data);
+        setError(null);
+      } catch (err) {
+        setError("Failed to fetch complaints");
+        console.error("Error fetching complaints:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchComplaints();
-  }, [selectedCategory, sortBy]);
+  }, []);
+
+  // Filter and sort locally (no API call) - instant updates, no flicker
+  const complaints = applyFilterAndSort(allComplaints, selectedCategory, sortBy);
 
   const getSortLabel = (sort) => {
     switch (sort) {

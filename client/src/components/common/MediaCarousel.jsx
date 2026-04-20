@@ -7,8 +7,8 @@ export default function MediaCarousel({ media }) {
   // Show placeholder if no media
   if (!media || media.length === 0) {
     return (
-      <div className="w-full h-48 bg-gray-200 rounded-lg flex items-center justify-center">
-        <span className="text-gray-500">No media attached</span>
+      <div className="w-full h-64 bg-gray-100 rounded-t-xl flex items-center justify-center border-b border-gray-200">
+        <span className="text-gray-500 text-sm font-medium">No media attached</span>
       </div>
     );
   }
@@ -37,21 +37,21 @@ export default function MediaCarousel({ media }) {
   };
 
   return (
-    <div className="relative w-full bg-black rounded-lg overflow-hidden">
+    <div className="relative w-full h-64 bg-black rounded-t-xl overflow-hidden">
       {/* Media Display - Show video or image based on which loads */}
       {isVideo ? (
         <video
           src={videoSrc}
           controls
           onError={handleVideoError}
-          className="w-full h-48 object-cover"
+          className="w-full h-full object-cover"
         />
       ) : (
         <img
           src={imgSrc}
           alt="complaint media"
           onError={handleImageError}
-          className="w-full h-48 object-cover"
+          className="w-full h-full object-cover"
         />
       )}
 
