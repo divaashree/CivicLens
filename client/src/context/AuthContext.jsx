@@ -22,7 +22,7 @@ export function AuthProvider({ children }) {
 
   const signup = async (name, email, password) => {
     try {
-      const response = await fetch("http://localhost:5000/api/auth/signup", {
+      const response = await fetch("https://civiclens-api-29bg.onrender.com/api/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
@@ -47,7 +47,7 @@ export function AuthProvider({ children }) {
 
   const login = async (email, password) => {
     try {
-      const response = await fetch("http://localhost:5000/api/auth/login", {
+      const response = await fetch("https://civiclens-api-29bg.onrender.com/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -73,7 +73,7 @@ export function AuthProvider({ children }) {
   const googleLogin = async (googleToken) => {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/auth/google-login",
+        "https://civiclens-api-29bg.onrender.com/api/auth/google-login",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
