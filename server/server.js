@@ -75,14 +75,17 @@ app.use("/api/complaints", upload.array("media", 3), require("./routes/complaint
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, async () => {
-  console.log(`🔥 Server running on http://localhost:${PORT}`);
+if (process.env.NODE_ENV !== "production") {
+  app.listen(PORT, async () => {
+    console.log(`🔥 Server running on http://localhost:${PORT}`);
 
-  // Create default users on startup
-  try {
-    await createAdminUser();
-    await createDemoUser();
-  } catch (error) {
-    console.error("Error creating default users:", error);
-  }
-});
+    try {
+      await createAdminUser();
+      await createDemoUser();
+    } catch (error) {
+      console.error("Error creating default users:", error);
+    }
+  });
+}
+
+module.exports = app;
