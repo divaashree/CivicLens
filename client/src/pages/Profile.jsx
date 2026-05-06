@@ -117,29 +117,29 @@ export default function Profile() {
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 text-center">
-            <div className="flex justify-center mb-2">
+        <div className="grid grid-cols-3 gap-2 sm:gap-4">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-2 sm:p-4 text-center">
+            <div className="flex justify-center mb-1 sm:mb-2">
               <FileIcon />
             </div>
-            <p className="text-2xl font-bold text-gray-900">{stats.totalReports}</p>
-            <p className="text-sm text-gray-600 mt-1">Reports</p>
+            <p className="text-xl sm:text-2xl font-bold text-gray-900">{stats.totalReports}</p>
+            <p className="text-xs sm:text-sm text-gray-600 mt-1">Reports</p>
           </div>
 
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 text-center">
-            <div className="flex justify-center mb-2">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-2 sm:p-4 text-center">
+            <div className="flex justify-center mb-1 sm:mb-2">
               <ThumbsUpIcon />
             </div>
-            <p className="text-2xl font-bold text-gray-900">{stats.totalUpvotes}</p>
-            <p className="text-sm text-gray-600 mt-1">Upvotes</p>
+            <p className="text-xl sm:text-2xl font-bold text-gray-900">{stats.totalUpvotes}</p>
+            <p className="text-xs sm:text-sm text-gray-600 mt-1">Upvotes</p>
           </div>
 
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 text-center">
-            <div className="flex justify-center mb-2">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-2 sm:p-4 text-center">
+            <div className="flex justify-center mb-1 sm:mb-2">
               <CheckIcon />
             </div>
-            <p className="text-2xl font-bold text-gray-900">{stats.totalResolved}</p>
-            <p className="text-sm text-gray-600 mt-1">Resolved</p>
+            <p className="text-xl sm:text-2xl font-bold text-gray-900">{stats.totalResolved}</p>
+            <p className="text-xs sm:text-sm text-gray-600 mt-1">Resolved</p>
           </div>
         </div>
 

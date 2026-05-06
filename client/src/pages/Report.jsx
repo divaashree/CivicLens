@@ -323,7 +323,7 @@ export default function Report() {
               Location / Address
             </label>
 
-            <div className="flex gap-2 mb-3">
+            <div className="flex flex-col sm:flex-row gap-2 mb-3">
               <input
                 type="text"
                 id="address"
@@ -337,9 +337,9 @@ export default function Report() {
                 type="button"
                 onClick={getCurrentLocation}
                 disabled={locatingUser}
-                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white text-sm font-semibold rounded-lg transition whitespace-nowrap"
+                className="w-full sm:w-auto px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white text-sm font-semibold rounded-lg transition whitespace-nowrap"
               >
-                {locatingUser ? "Locating..." : "Use My Location"}
+                {locatingUser ? "Locating..." : "📍 Use My Location"}
               </button>
             </div>
 
